@@ -3,6 +3,12 @@ fn main() {
     function_ownership();
     reference();
     mut_reference();
+    slice();
+    let first_word_by_bytes = first_word_by_bytes("hello world");
+    let first_word_by_chars = first_word_by_chars("hello world");
+    println!("first_word_by_bytes: {}", first_word_by_bytes);
+    println!("first_word_by_chars: {}", first_word_by_chars);
+    array_slice();
 }
 
 
@@ -100,3 +106,56 @@ fn change(s: &mut String) {
 //     let s = String::from("hello");
 //  &s
 // }
+
+fn slice() {
+    let s = String::from("hello world");
+    let hello = &s[0..5];
+    let world = &s[6..11];
+    println!("hello: {}", hello);
+    println!("world: {}", world);
+}
+
+fn first_word_by_bytes(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+    &s[..]
+}
+
+fn first_word_by_chars(s: &str) -> &str {
+   for(i,c) in s.char_indices() {
+    if c == ' ' {
+        return &s[..i];
+    }
+   }
+   &s[..]
+}
+
+fn array_slice() {
+    let a = [1, 2, 3, 4, 5];
+    println!("a: {}", a[0]);
+    println!("a: {}", a[1]);
+    println!("a: {}", a[2]);
+    println!("a: {}", a[3]);
+    println!("a: {}", a[4]);
+    let slice = &a[..];
+    println!("slice: {}", slice[0]);
+    println!("slice: {}", slice[1]);
+    println!("slice: {}", slice[2]);
+    println!("slice: {}", slice[3]);
+    println!("slice: {}", slice[4]);
+
+    let mut b = [1, 2, 3, 4, 5];
+    let slice2 = &mut b[..];
+    slice2[0] = 10;
+    println!("b: {}", b[0]);
+    println!("b: {}", b[1]);
+    println!("b: {}", b[2]);
+    println!("b: {}", b[3]);
+    println!("b: {}", b[4]);
+}
+
+
