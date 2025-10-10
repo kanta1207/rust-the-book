@@ -63,12 +63,14 @@ struct Rectangle {
     height: u32,
 }
 
-fn area_with_struct(rect: Rectangle) -> u32 {
-    rect.width * rect.height
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
 }
 
 fn rectangle_with_struct(){
     let rect = Rectangle { width: 30, height: 50 };
-    println!("The area of the rectangle with struct is {} square pixels.", area_with_struct(rect));
+    println!("The area of the rectangle with struct is {} square pixels.", rect.area());
 }
 
