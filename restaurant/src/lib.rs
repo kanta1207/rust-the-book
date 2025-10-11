@@ -13,24 +13,10 @@ mod tests {
     }
 }
 
+mod front_of_house;
 
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {
-            println!("Adding to waitlist");
-        }
+pub use crate::front_of_house::hosting;
 
-        fn seat_at_table() {}
-    }
-
-    mod serving {
-        fn take_order() {}
-
-        fn serve_order() {}
-
-        fn take_payment() {}
-    }
-}
 
 pub fn eat_at_restaurant_at_front() {
     // Absolute path
@@ -83,23 +69,12 @@ pub fn eat_at_restaurant_at_back() {
 
 //　関数の親モジュールまでを持ち込むのが通例。
 // 関数自体を持ち込真名井ことでローカルでは定義されてないことを呼び出し時に明確にする
-use crate::front_of_house::hosting;
+// use crate::front_of_house::hosting;
 
 pub fn eat_at_restaurant_at_front_and_back() {
     hosting::add_to_waitlist();
 }
 
-// structやenumを持ち込むときは直接フルパスで.名前の衝突を防ぐためにはasが使える
-use std::fmt::Result;
-use std::io::Result as IoResult;
-
-fn function1() -> Result {
-    // --snip--
-}
-
-fn function2() -> IoResult<()> {
-    // --snip--
-}
 
 
 // 同じクレート・モジュールから複数要素を持ち込む時,ネストしたパス使うと1行で済む
