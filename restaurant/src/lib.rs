@@ -81,3 +81,40 @@ pub fn eat_at_restaurant_at_back() {
     let order2 = back_of_house::Appetizer::Salad;
 }
 
+//　関数の親モジュールまでを持ち込むのが通例。
+// 関数自体を持ち込真名井ことでローカルでは定義されてないことを呼び出し時に明確にする
+use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant_at_front_and_back() {
+    hosting::add_to_waitlist();
+}
+
+// structやenumを持ち込むときは直接フルパスで.名前の衝突を防ぐためにはasが使える
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+fn function1() -> Result {
+    // --snip--
+}
+
+fn function2() -> IoResult<()> {
+    // --snip--
+}
+
+
+// 同じクレート・モジュールから複数要素を持ち込む時,ネストしたパス使うと1行で済む
+// --snip--
+// （略）
+// use std::{cmp::Ordering, io};
+// --snip--
+// （略）
+// use std::io;
+// use std::io::Write;
+// これを1行にまとめると
+// use std::{self, io::Write};
+
+
+// クレート・モジュールから全ての要素を持ち込む
+// use std::collections::*;
+
+
