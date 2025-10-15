@@ -15,3 +15,4 @@ fn fn_string() {
 fn extend_string(s : String) {
     s.push_str(", world!");
 }
+
