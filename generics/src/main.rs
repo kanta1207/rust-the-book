@@ -236,3 +236,58 @@ impl<T: Display + PartialOrd> Pair<T> {
     }
 }
 
+
+/* 関数ジェネリック
+*/
+
+
+// 返り値がx, yどちらの可能性もあるゆえに返り値のライフタイムがどちらになるかわからないためコンパイルエラーになる
+// fn longest(x: &str, y: &str) -> &str {
+//     if x.len() > y.len() {
+//         x
+//     } else {
+//         y
+//     }
+// }
+
+// ライフタイムを指定する
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+}
+
+fn print_novel(){
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+// ImportantExcerptのライフタイムはfirst_sentenceのライフタイムと同じなので、
+// first_sentenceを関数内で宣言してる時点で返り値として使えない
+    let i = ImportantExcerpt { part: first_sentence };
+    println!("{}", i.part);
+}
+
+// importantExcerptのpartをのを関数外から受け取る場合、インスタンスを関数外にお返しできますね
+// fn print_novel<'a>(sentence: & 'a str) -> ImportantExcerpt<'a> {
+//     let i = ImportantExcerpt { part: sentence };
+//     println!("{}", i.part); 
+//     i
+// }
+
+// ライフタイム省略
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
